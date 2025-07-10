@@ -1,0 +1,579 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Dr. Hassan Kanso</title>
+
+<!--  FONTS  -->
+<link rel="stylesheet" href="styles.css">
+</head>
+
+<body>
+<!-- HEADER -->
+<header>
+  <div class="head-inner">
+    <a class="brand" href="index.html">Dr. Hassan&nbsp;Kanso</a>
+    
+    <nav>
+      <ul>
+        <li><a href="index.html" class="active">Home</a></li>
+        <li><a href="projects.html">Projects</a></li>
+        <li><a href="LabVault.html">LabVault</a></li>
+      </ul>
+    </nav>
+    <div class="social">
+      <a href="mailto:drhassankanso@gmail.com" aria-label="Email"><svg fill="currentColor" viewBox="0 0 24 24"><path d="M2 4h20v16H2zm10 8 8-6H4z"/></svg></a>
+      <a href="https://github.com/Dr-Kanso" aria-label="GitHub"><svg fill="currentColor" viewBox="0 0 24 24"><path d="M12 .5A11.5 11.5 0 0 0 .5 12 11.5 11.5 0 0 0 8.36 22.94c.58.11.79-.25.79-.55v-2.14c-3.2.7-3.87-1.54-3.87-1.54-.53-1.34-1.3-1.7-1.3-1.7-1.07-.73.08-.72.08-.72 1.18.09 1.8 1.21 1.8 1.21 1.05 1.8 2.76 1.28 3.44.98.11-.76.41-1.28.75-1.58-2.55-.29-5.23-1.28-5.23-5.69 0-1.26.45-2.29 1.2-3.1-.12-.3-.52-1.52.11-3.17 0 0 .97-.31 3.18 1.18A11.1 11.1 0 0 1 12 6.8a11.1 11.1 0 0 1 2.89.39c2.2-1.49 3.17-1.18 3.17-1.18.63 1.65.23 2.87.11 3.17.75.81 1.2 1.84 1.2 3.1 0 4.42-2.69 5.39-5.25 5.67.42.37.8 1.1.8 2.22v3.29c0 .31.21.67.8.55A11.5 11.5 0 0 0 23.5 12 11.5 11.5 0 0 0 12 .5z"/></svg></a>
+      <a href="https://www.linkedin.com/in/hassankanso/" aria-label="LinkedIn"><svg fill="currentColor" viewBox="0 0 24 24"><path d="M4.98 3.5a2.5 2.5 0 1 1 0 5 2.5 2.5 0 0 1 0-5zM3 8.98h4v12H3zM9 8.98h3.8v1.62h.05c.53-.9 1.83-1.85 3.77-1.85 4.03 0 4.78 2.65 4.78 6.09v7.14h-4V15.2c0-2.37-.05-5.42-3.3-5.42-3.3 0-3.8 2.58-3.8 5.26v6.02H9z"/></svg></a>
+    </div>
+  </div>
+</header>
+
+<!-- SIDE NAVIGATION BAR -->
+<nav class="side-nav" aria-label="Section navigation">
+  <ul>
+    <li>
+      <a href="#intro" class="side-nav-link" data-section="intro" aria-label="Home">
+        <span class="side-nav-dot"></span>
+        <span class="side-nav-label">Home</span>
+      </a>
+    </li>
+    <li>
+      <a href="#about" class="side-nav-link" data-section="about" aria-label="About Me">
+        <span class="side-nav-dot"></span>
+        <span class="side-nav-label">About Me</span>
+      </a>
+    </li>
+    <li>
+      <a href="#experience" class="side-nav-link" data-section="experience" aria-label="Experience">
+        <span class="side-nav-dot"></span>
+        <span class="side-nav-label">Experience</span>
+      </a>
+    </li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<section id="intro">
+  <div id="banner"></div>
+  <script src="https://cdn.jsdelivr.net/npm/p5@1.9.0/lib/p5.min.js"></script>
+  <script>
+let time = 0;
+let helixPoints = [];
+let basePairs = [];
+let particles = [];
+// Removed burstCooldown and mousePressed for burst effect
+
+function setup() {
+  const h = 180;
+  const cnv = createCanvas(windowWidth, h);
+  cnv.parent('banner');
+  colorMode(HSL, 360, 100, 100, 1);
+  initializeDNAHelix();
+  frameRate(60);
+}
+
+function draw() {
+  clear();
+  time += 0.015;
+
+  // Dynamic color scheme based on time
+  const now = new Date();
+  const minutes = now.getHours() * 60 + now.getMinutes();
+  const progress = minutes / 1440;
+  const baseHue = map(progress, 0, 1, 180, 320) + 30 * sin(time/2); // more dynamic
+
+  push();
+  translate(width / 2, height / 2);
+  rotate(-HALF_PI); // Make helix horizontal, right to left
+  
+  // Draw DNA double helix
+  drawHelixBackbone(baseHue);
+  drawBasePairs(baseHue);
+  drawFloatingNucleotides(baseHue);
+  
+  pop();
+}
+
+function initializeDNAHelix() {
+  helixPoints = [];
+  const helixLength = 600;
+  const helixRadius = 40;
+  const turns = 2.5;
+  for (let i = 0; i <= 100; i++) {
+    const t = map(i, 0, 100, 0, 1);
+    const angle = t * turns * TWO_PI;
+    const y = map(t, 0, 1, -helixLength/2, helixLength/2);
+    helixPoints.push({
+      strand: 1,
+      x: cos(angle) * helixRadius,
+      y: y,
+      z: sin(angle) * helixRadius,
+      t: t,
+      angle: angle
+    });
+    helixPoints.push({
+      strand: 2,
+      x: cos(angle + PI) * helixRadius,
+      y: y,
+      z: sin(angle + PI) * helixRadius,
+      t: t,
+      angle: angle + PI
+    });
+  }
+  basePairs = [];
+  for (let i = 0; i < helixPoints.length; i += 10) {
+    if (i + 1 < helixPoints.length) {
+      const point1 = helixPoints[i];
+      const point2 = helixPoints[i + 1];
+      if (point1.strand !== point2.strand) {
+        basePairs.push({
+          p1: point1,
+          p2: point2,
+          baseType: random(['AT', 'GC', 'TA', 'CG']),
+          phase: random(TWO_PI)
+        });
+      }
+    }
+  }
+  particles = [];
+  for (let i = 0; i < 30; i++) {
+    // Assign strand: 1 (forward) or 2 (reverse)
+    let strand = i % 2 === 0 ? 1 : 2;
+    let t = random(0, 1);
+    let angle = t * turns * TWO_PI + (strand === 2 ? Math.PI : 0);
+    let y = map(t, 0, 1, -helixLength/2, helixLength/2);
+    let x = cos(angle) * helixRadius;
+    let z = sin(angle) * helixRadius;
+    particles.push({
+      t: t,
+      speed: random(0.0005, 0.0015) * (strand === 1 ? 1 : -1), // reverse for strand 2
+      strand: strand,
+      baseX: x,
+      baseY: y,
+      baseZ: z,
+      phase: random(TWO_PI),
+      x: x,
+      y: y,
+      z: z,
+      type: random(['A', 'T', 'G', 'C']),
+      life: random(50, 100),
+      maxLife: random(50, 100),
+      rotation: random(TWO_PI),
+      rotSpeed: random(-0.05, 0.05),
+      trail: []
+    });
+  }
+}
+
+function drawHelixBackbone(baseHue) {
+  const rotationOffset = time * 0.5;
+  const strand1 = helixPoints.filter(p => p.strand === 1);
+  const strand2 = helixPoints.filter(p => p.strand === 2);
+  [strand1, strand2].forEach((strand, strandIndex) => {
+    for (let glowSize = 10; glowSize > 0; glowSize -= 1) {
+      const alpha = map(glowSize, 0, 10, 0.9, 0);
+      if (strandIndex === 0) {
+        // Dynamic color for strand 1
+        stroke((baseHue + (strandIndex * 60) + 30 * sin(time + strandIndex)) % 360, 80, 90, alpha);
+      } else {
+        // Fixed pink for strand 2
+        stroke(320, 80, 80, alpha);
+      }
+      strokeWeight(glowSize);
+      noFill();
+      beginShape();
+      for (let i = 0; i < strand.length - 1; i++) {
+        const p1 = strand[i];
+        const p2 = strand[i + 1];
+        const screenX1 = p1.x * cos(rotationOffset) - p1.z * sin(rotationOffset);
+        const screenY1 = p1.y + (p1.z * cos(rotationOffset) + p1.x * sin(rotationOffset)) * 0.3;
+        const screenX2 = p2.x * cos(rotationOffset) - p2.z * sin(rotationOffset);
+        const screenY2 = p2.y + (p2.z * cos(rotationOffset) + p2.x * sin(rotationOffset)) * 0.3;
+        if (i === 0) curveVertex(screenX1, screenY1);
+        curveVertex(screenX1, screenY1);
+        if (i === strand.length - 2) curveVertex(screenX2, screenY2);
+      }
+      endShape();
+    }
+    if (strandIndex === 0) {
+      // Dynamic color for strand 1
+      stroke((baseHue + (strandIndex * 60)) % 360, 100, 98);
+    } else {
+      // Fixed pink for strand 2
+      stroke(320, 90, 90);
+    }
+    strokeWeight(2.5);
+    noFill();
+    beginShape();
+    for (let i = 0; i < strand.length - 1; i++) {
+      const p1 = strand[i];
+      const p2 = strand[i + 1];
+      const screenX1 = p1.x * cos(rotationOffset) - p1.z * sin(rotationOffset);
+      const screenY1 = p1.y + (p1.z * cos(rotationOffset) + p1.x * sin(rotationOffset)) * 0.3;
+      const screenX2 = p2.x * cos(rotationOffset) - p2.z * sin(rotationOffset);
+      const screenY2 = p2.y + (p2.z * cos(rotationOffset) + p2.x * sin(rotationOffset)) * 0.3;
+      if (i === 0) curveVertex(screenX1, screenY1);
+        curveVertex(screenX1, screenY1);
+      if (i === strand.length - 2) curveVertex(screenX2, screenY2);
+    }
+    endShape();
+  });
+}
+
+function drawBasePairs(baseHue) {
+  const rotationOffset = time * 0.5;
+  for (let pair of basePairs) {
+    const pulse = 1 + 0.15 * sin(time * 3 + pair.phase);
+    const x1 = pair.p1.x * cos(rotationOffset) - pair.p1.z * sin(rotationOffset);
+    const y1 = pair.p1.y + (pair.p1.z * cos(rotationOffset) + pair.p1.x * sin(rotationOffset)) * 0.3;
+    const x2 = pair.p2.x * cos(rotationOffset) - pair.p2.z * sin(rotationOffset);
+    const y2 = pair.p2.y + (pair.p2.z * cos(rotationOffset) + pair.p2.x * sin(rotationOffset)) * 0.3;
+    const bonds = pair.baseType === 'AT' || pair.baseType === 'TA' ? 2 : 3;
+    for (let b = 0; b < bonds; b++) {
+      const offset = map(b, 0, bonds - 1, -3, 3);
+      const bondAlpha = 0.7 + 0.2 * sin(time * 2 + pair.phase + b);
+      for (let glow = 5; glow > 0; glow--) {
+        const glowAlpha = map(glow, 0, 5, bondAlpha, 0) * 0.6;
+        stroke((baseHue + 180 + 60 * sin(time + b)) % 360, 70, 90, glowAlpha);
+        strokeWeight(glow);
+        const perpX = (y2 - y1) / dist(x1, y1, x2, y2) * offset;
+        const perpY = -(x2 - x1) / dist(x1, y1, x2, y2) * offset;
+        line(x1 + perpX, y1 + perpY, x2 + perpX, y2 + perpY);
+      }
+      stroke((baseHue + 180) % 360, 100, 98, bondAlpha);
+      strokeWeight(1.2);
+      const perpX = (y2 - y1) / dist(x1, y1, x2, y2) * offset;
+      const perpY = -(x2 - x1) / dist(x1, y1, x2, y2) * offset;
+      line(x1 + perpX, y1 + perpY, x2 + perpX, y2 + perpY);
+    }
+    const baseColors = {
+      'A': (baseHue + 0) % 360,
+      'T': (baseHue + 90) % 360,
+      'G': (baseHue + 180) % 360,
+      'C': (baseHue + 270) % 360
+    };
+    [
+      {x: x1, y: y1, base: pair.baseType[0]},
+      {x: x2, y: y2, base: pair.baseType[1]}
+    ].forEach(base => {
+      const baseSize = 7 * pulse;
+      for (let r = baseSize * 2; r > 0; r -= 1) {
+        const alpha = map(r, 0, baseSize * 2, 0.5, 0);
+        fill(baseColors[base.base], 80, 90, alpha);
+        noStroke();
+        circle(base.x, base.y, r);
+      }
+      fill(baseColors[base.base], 100, 98);
+      noStroke();
+      circle(base.x, base.y, baseSize);
+    });
+  }
+}
+
+function drawFloatingNucleotides(baseHue) {
+  const rotationOffset = time * 0.5;
+  for (let p of particles) {
+    // Move particle along its strand direction
+    p.t += p.speed;
+    if (p.t > 1) p.t -= 1;
+    if (p.t < 0) p.t += 1;
+    let angle = p.t * 2.5 * TWO_PI + (p.strand === 2 ? Math.PI : 0);
+    p.baseX = cos(angle) * 40;
+    p.baseY = map(p.t, 0, 1, -600/2, 600/2);
+    p.baseZ = sin(angle) * 40;
+    // Add floating offset
+    let floatR = 16;
+    let floatSpeed = 1.2;
+    p.x = p.baseX + floatR * sin(floatSpeed * time + p.phase);
+    p.y = p.baseY + floatR * cos(floatSpeed * time + p.phase * 1.2);
+    p.z = p.baseZ + floatR * sin(floatSpeed * time + p.phase * 0.7);
+    p.rotation += p.rotSpeed;
+    p.life--;
+    // Respawn
+    if (p.life <= 0) {
+      p.t = random(0, 1);
+      p.speed = random(0.0005, 0.0015) * (p.strand === 1 ? 1 : -1);
+      p.phase = random(TWO_PI);
+      p.rotation = random(TWO_PI);
+      p.rotSpeed = random(-0.05, 0.05);
+      p.type = random(['A', 'T', 'G', 'C']);
+      p.life = p.maxLife;
+      p.trail = [];
+    }
+    // 3D projection
+    const screenX = p.x * cos(rotationOffset) - p.z * sin(rotationOffset);
+    const screenY = p.y + (p.z * cos(rotationOffset) + p.x * sin(rotationOffset)) * 0.2;
+    const alpha = map(p.life, 0, p.maxLife, 0, 0.7);
+    const nucleotideColors = {
+      'A': (baseHue + 0) % 360,
+      'T': (baseHue + 90) % 360,
+      'G': (baseHue + 180) % 360,
+      'C': (baseHue + 270) % 360
+    };
+    // Glow effect
+    push();
+    translate(screenX, screenY);
+    rotate(p.rotation);
+    for (let r = 10; r > 0; r -= 1) {
+      const glowAlpha = map(r, 0, 10, alpha, 0) * 0.4;
+      fill(nucleotideColors[p.type], 80, 90, glowAlpha);
+      noStroke();
+      circle(0, 0, r);
+    }
+    // Core nucleotide
+    fill(nucleotideColors[p.type], 100, 98, alpha);
+    noStroke();
+    circle(0, 0, 5);
+    // Letter label for nucleotide type
+    fill(255, 255, 255, alpha * 0.9);
+    textAlign(CENTER, CENTER);
+    textSize(7);
+    text(p.type, 0, 0);
+    pop();
+  }
+}
+
+function windowResized() { 
+  resizeCanvas(windowWidth, 180); 
+  initializeDNAHelix();
+}
+
+// Removed mousePressed function for burst effect
+</script>
+  <div class="hero-content">
+    <h2><span class="accent">Dr. Hassan Kanso</span></h2>
+    <h3>Bioengineering | Protein Biochemistry | Computational Biology</h3>
+    <p>Open to collaboration, consulting, and freelance projects in bioengineering, computational biology, and laboratory automation. Let's build something impactful together.</p>
+    <div class="btn-group">
+      <a class="btn" href="mailto:drhassankanso@gmail.com" title="Email"><span>✉️ Email</span></a>
+      <a class="btn" href="https://github.com/Dr-Kanso" target="_blank" rel="noopener" title="GitHub"><span>🐙 GitHub</span></a>
+      <a class="btn" href="https://www.linkedin.com/in/hassankanso/" target="_blank" rel="noopener" title="LinkedIn"><span>💼 LinkedIn</span></a>
+    </div>
+  </div>
+</section>
+
+<!-- ABOUT -->
+<section id="about">
+  <div class="heading-row">
+    <h2 class="section-heading"><span class="slash">/</span>about&nbsp;me</h2>
+  </div>
+  <div class="about-grid">
+    <div>
+      <!-- Profile Summary -->
+      <p>
+        <strong>PhD-trained scientist</strong> with expertise in protein biochemistry, analytical assay development, and stem cell biology. Earned a PhD in Medical Engineering from Queen Mary University of London (2019–2023), specializing in bioactive self-assembled protein nanosheets for stem cell biotechnologies. Demonstrated success in bridging research and industry through scalable biomaterials, quality control, and innovative software solutions.
+      </p>
+      <!-- Publications -->
+      <p>
+        <strong>Selected Publications:</strong>
+        <ul class="tech-list">
+          <li>
+            Artificial Cells Evidence Apical Compressive Forces Building up During Neuroepithelial Organoid Early Development
+            (<a href="https://doi.org/10.1101/2025.06.13.659497" target="_blank" rel="noopener">click here</a>)
+          </li>
+          <li>
+            Strong Elastic Protein Nanosheets Enable the Culture and Differentiation of Induced Pluripotent Stem Cells on Microdroplets
+            (<a href="https://doi.org/10.1002/adma.202406333" target="_blank" rel="noopener">click here</a>)
+          </li>
+          <li>
+            Engineered Protein Nanosheets for the Scale-up of Mesenchymal Stem Cell Culture on Bioemulsions
+            (<a href="https://doi.org/10.1101/2023.12.18.572135" target="_blank" rel="noopener">click here</a>)
+          </li>
+          <li>
+            Supercharged Protein Nanosheets for Cell Expansion on Bioemulsions
+            (<a href="https://doi.org/10.1021/acsami.2c20188" target="_blank" rel="noopener">click here</a>)
+          </li>
+        </ul>
+      </p>
+    </div>
+    <img src="images/me.png" alt="Portrait of Hassan Kanso">
+  </div>
+</section>
+
+<!-- EXPERIENCE -->
+<section id="experience">
+  <div class="heading-row">
+    <h2 class="section-heading"><span class="slash">/</span>experience</h2>
+  </div>
+  <div class="exp-wrapper">
+    <div class="exp-tabs" role="tablist">
+      <button data-i="0" class="active" role="tab">Research</button>
+      <button data-i="1" role="tab">Teaching</button>
+      <button data-i="2" role="tab">Software</button>
+      <button data-i="3" role="tab">Technical Skills</button>
+      <button data-i="4" role="tab">Leadership</button>
+    </div>
+    <article class="exp-panel active" role="tabpanel">
+      <h3>PhD Research <span>@ Queen Mary University of London</span></h3>
+      <time>2019&nbsp;— 2023</time>
+      <ul>
+        <li><strong>Protein Biochemistry & Molecular Biology:</strong> Engineered bioactive self-assembled protein nanosheets for stem cell biotechnologies. Developed high-yield recombinant protein pipelines in E. coli & P. pastoris achieving >75 mg/batch with >95% purity through systematic optimization.</li>
+        <li><strong>Advanced Biophysical Characterization:</strong> Conducted comprehensive analysis using Surface Plasmon Resonance (SPR), ELISA development, interfacial shear rheology, and mass spectrometry. Applied AlphaFold 2 modeling for structural assessment of 12 chimeric proteins.</li>
+        <li><strong>Stem Cell & Organoid Culture:</strong> Maintained 4+ years contamination-free track record with human iPSCs, MSCs, and fibroblasts. Engineered cerebral organoids with biofunctionalized microdroplets for enhanced neurodevelopmental outcomes.</li>
+        <li><strong>Biointerface Engineering:</strong> Developed nanoscale protein-stabilized emulsions using biotinylated BSA at oil-water interfaces. Created bioactive microdroplet platforms serving as informative scaffolds within cerebral organoids.</li>
+        <li><strong>Computational Biology:</strong> Developed automated image analysis pipelines reducing processing time by 60%. Built high-throughput imaging and analysis systems using PyImageJ and MATLAB for quantitative organoid analysis.</li>
+      </ul>
+    </article>
+    <article class="exp-panel">
+      <h3>Teaching & Academic Instruction</h3>
+      <time>2016&nbsp;— Present</time>
+      <ul>
+        <li><strong>Undergraduate Demonstrator @ QMUL:</strong> Provided in-laboratory instruction in molecular biology and biochemistry modules, guiding students through recombinant protein expression, enzyme kinetics, chromatographic methods, and cell culture protocols.</li>
+        <li><strong>A-Level Chemistry & Biology Tutor:</strong> Delivered targeted tutoring for Edexcel, AQA, OCR, and Cambridge International examinations. Helped students surpass predicted grades with several securing places at Russell Group universities.</li>
+        <li><strong>Remote E-Teacher @ Cambridge International Biology:</strong> Delivered structured online A-Level Biology instruction to underprivileged international students (2024-2025), achieving average two-grade-level improvements over six-month programme.</li>
+        <li><strong>Mentorship:</strong> Established structured mentorship programs for graduate and undergraduate researchers, conducting regular training sessions on advanced laboratory techniques and data analysis.</li>
+      </ul>
+    </article>
+    <article class="exp-panel">
+      <h3>Computational Tools & Automation</h3>
+      <time>2021&nbsp;— Present</time>
+      <ul>
+        <li><strong>Laboratory Toolkit Development (2025):</strong> Built cross-platform all-in-one lab application integrating 10+ interactive scientific tools including primer designer, buffer/pH calculator, serial dilution planners, and plasmid visualization. Integrated Electronic Lab Notebook (ELN) system with rich text editing and OCR capabilities.</li>
+        <li><strong>Automated Image Analysis Pipelines:</strong> Developed high-throughput analysis pipelines using PyImageJ for fluorescent and confocal microscopy images. Implemented cell/nuclei segmentation and phenotypic quantification workflows for cerebral organoid datasets.</li>
+        <li><strong>Data Processing & Visualization:</strong> Created MATLAB-based pipelines for interfacial rheology data analysis with batch processing capabilities. Built automated kinetic data fitting workflows for SPR analysis and rheological property extraction.</li>
+        <li><strong>Programming Expertise:</strong> Python for data science, AI development, and laboratory automation. Flutter/Dart for cross-platform laboratory applications. Applied computational modeling during pandemic restrictions to maintain project momentum.</li>
+      </ul>
+    </article>
+    <article class="exp-panel">
+      <h3>Technical Skills & Laboratory Expertise</h3>
+      <time>2019&nbsp;— Present</time>
+      <ul>
+        <li><strong>Molecular Biology & Protein Biochemistry:</strong> Plasmid design, molecular cloning, recombinant protein expression in E. coli & P. pastoris, chromatographic purification using ÄKTA Pure systems, SDS-PAGE, Western blot, and circular dichroism spectroscopy.</li>
+        <li><strong>Advanced Analytical Techniques:</strong> Surface Plasmon Resonance (SPR), ELISA development, interfacial shear rheology, mass spectrometry, and enzymatic assays. Expertise in protein-ligand interaction kinetics and biophysical characterization.</li>
+        <li><strong>Stem Cell & Organoid Culture:</strong> Human iPSC, MSC, and fibroblast culture with 4+ years contamination-free record. Cerebral organoid generation, 3D culture systems, cryosectioning, and immunohistochemistry (SOX2, PAX6, TUJ1, FOXG1, N-cadherin, E-cadherin, Ki67).</li>
+        <li><strong>Microscopy & Imaging:</strong> Confocal microscopy (CSU-W1 SoRa), SEM/TEM, time-lapse live-cell imaging, and high-throughput quantitative image analysis using ImageJ/Fiji, PyImageJ, and custom Python/MATLAB pipelines.</li>
+        <li><strong>Computational & Data Analysis:</strong> PyMOL for protein structure visualization, SnapGene for molecular cloning, OriginPro for statistical analysis, AlphaFold 2 modeling, and automated data processing workflows for kinetic modeling and batch analysis.</li>
+      </ul>
+    </article>
+    <article class="exp-panel">
+      <h3>Leadership & Collaborative Excellence</h3>
+      <time>2019&nbsp;— Present</time>
+      <ul>
+        <li><strong>Team Leadership:</strong> Led interdisciplinary research teams spanning molecular biology, materials science, and stem cell biology. Established structured mentorship programs and conducted regular training sessions for junior researchers.</li>
+        <li><strong>Scientific Collaboration:</strong> Collaborated with specialists in mass spectrometry (Dr. Roberto Buccafusca) and advanced microscopy (Giulia Mastroianni) for comprehensive method validation. Coordinated joint research activities across disciplines.</li>
+        <li><strong>Technical Communication:</strong> Communicated complex technical concepts to diverse audiences across academic and industry settings. Delivered scientific presentations covering protein-ligand interactions, structural analysis, and stem cell differentiation studies.</li>
+        <li><strong>Publications & Impact:</strong> Co-authored multiple peer-reviewed publications on protein nanosheets and stem cell culture systems. Authored comprehensive SOPs, technical documentation, and research reports suitable for peer-reviewed publication standards.</li>
+      </ul>
+    </article>
+  </div>
+</section>
+
+
+<footer><p>© 2025 Hassan Kanso.</p></footer>
+
+<!--  SCRIPTS -->
+<script>
+// Use unique variable names to avoid redeclaration
+const observerMain = new IntersectionObserver(entries => entries.forEach(entry => entry.isIntersecting && entry.target.classList.add('in-view')), {threshold: .15});
+document.querySelectorAll('.project-slide').forEach(el => observerMain.observe(el));
+
+// Navigation sync for anchor links
+const nav = [...document.querySelectorAll('nav a')], secs = [...document.querySelectorAll('section')];
+function sync() {
+  const y = scrollY + innerHeight / 3;
+  secs.forEach(s => nav.forEach(l => l.classList.toggle('active', l.hash === '#' + s.id && y >= s.offsetTop && y < s.offsetTop + s.offsetHeight)));
+}
+addEventListener('scroll', sync);
+sync();
+
+// Smooth scroll for nav links
+document.querySelectorAll('nav a').forEach(link => {
+  link.addEventListener('click', function(e) {
+    const target = document.querySelector(this.hash);
+    if (target) {
+      e.preventDefault();
+      target.scrollIntoView({behavior: 'smooth'});
+    }
+  });
+});
+
+// About section intersection observer
+const observerAbout = new IntersectionObserver(entries => entries.forEach(entry => entry.isIntersecting && entry.target.classList.add('in-view')), {threshold: .15});
+document.querySelectorAll('section').forEach(el => observerAbout.observe(el));
+
+const nameElement = document.querySelector('.accent'), cursor = document.querySelector('.cursor'), nameText = nameElement.textContent;
+nameElement.textContent = '';
+[nameText].forEach((c, i) => setTimeout(() => {
+  nameElement.textContent += c;
+  i === nameText.length - 1 && (cursor.style.animationPlayState = 'running');
+}, 50 * i));
+
+document.querySelectorAll('.exp-tabs button').forEach((b, i) => b.onclick = () => {
+  document.querySelectorAll('.exp-tabs button').forEach(x => x.classList.toggle('active', x === b));
+  document.querySelectorAll('.exp-panel').forEach((p, idx) => p.classList.toggle('active', idx === i));
+});
+
+const track = document.querySelector('.slide-track'), slides = [...track.children], dotsWrap = document.querySelector('.dots'), L = document.querySelector('.arrow-left'), R = document.querySelector('.arrow-right');
+let idx = 0, auto;
+slides.forEach((_, i) => {
+  const d = document.createElement('button');
+  d.className = 'slider-dot' + (!i ? ' active' : '');
+  d.dataset.i = i;
+  dotsWrap.appendChild(d);
+});
+const dots = [...document.querySelectorAll('.slider-dot')];
+function go(n) {
+  idx = (n + slides.length) % slides.length;
+  track.style.transform = `translateX(-${idx * 100}%)`;
+  dots.forEach((d, i) => d.classList.toggle('active', i === idx));
+}
+function next() { go(idx + 1) }
+function play() { auto = setInterval(next, 7000) }
+function stop() { clearInterval(auto) }
+L.onclick = () => { stop(); go(idx - 1); play() };
+R.onclick = () => { stop(); go(idx + 1); play() };
+dots.forEach(d => d.onclick = () => { stop(); go(+d.dataset.i); play() });
+track.addEventListener('pointerdown', e => {
+  stop();
+  let x0 = e.clientX, dx;
+  track.style.transition = 'none';
+  const mv = ev => {
+    dx = ev.clientX - x0;
+    track.style.transform = `translateX(${-idx * 100 + dx * 100 / innerWidth}%)`;
+  }, up = () => {
+    track.style.transition = '';
+    Math.abs(dx) > 60 ? go(idx - (dx > 0 ? 1 : -1)) : go(idx);
+    play();
+    window.removeEventListener('pointermove', mv);
+    window.removeEventListener('pointerup', up);
+  };
+  window.addEventListener('pointermove', mv);
+  window.addEventListener('pointerup', up);
+});
+addEventListener('keydown', e => {
+  e.code === 'ArrowLeft' && L.click();
+  e.code === 'ArrowRight' && R.click();
+});
+
+// --- Side Navigation Active State & Smooth Scroll ---
+(function() {
+  const sideLinks = document.querySelectorAll('.side-nav-link');
+  // Add 'intro' to the list of sections
+  const sections = ['intro', 'about', 'experience'].map(id => document.getElementById(id));
+  function updateSideNav() {
+    const scrollY = window.scrollY + window.innerHeight / 3;
+    sections.forEach((sec, i) => {
+      if (!sec) return;
+      const active = scrollY >= sec.offsetTop && scrollY < sec.offsetTop + sec.offsetHeight;
+      sideLinks[i].classList.toggle('active', active);
+    });
+  }
+  window.addEventListener('scroll', updateSideNav);
+  updateSideNav();
+
+  // Smooth scroll for side nav
+  sideLinks.forEach(link => {
+    link.addEventListener('click', function(e) {
+      const target = document.getElementById(this.getAttribute('href').slice(1));
+      if (target) {
+        e.preventDefault();
+        target.scrollIntoView({behavior: 'smooth'});
+      }
+    });
+  });
+})();
+</script>
+</body>
+</html>

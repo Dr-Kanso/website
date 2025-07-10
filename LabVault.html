@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>LabVault | Dr. Hassan Kanso</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <!-- HEADER -->
+  <header>
+    <div class="head-inner">
+      <a class="brand" href="index.html">Dr. Hassan&nbsp;Kanso</a>
+      <nav>
+        <ul>
+          <li><a href="index.html">Home</a></li>
+          <li><a href="projects.html">Projects</a></li>
+          <li><a href="LabVault.html" class="active">LabVault</a></li>
+        </ul>
+      </nav>
+      <div class="social">
+        <a href="mailto:drhassankanso@gmail.com" aria-label="Email"><svg fill="currentColor" viewBox="0 0 24 24" width="22" height="22"><path d="M2 4h20v16H2zm10 8 8-6H4z"/></svg></a>
+        <a href="https://github.com/Dr-Kanso" aria-label="GitHub"><svg fill="currentColor" viewBox="0 0 24 24" width="22" height="22"><path d="M12 .5A11.5 11.5 0 0 0 .5 12 11.5 11.5 0 0 0 8.36 22.94c.58.11.79-.25.79-.55v-2.14c-3.2.7-3.87-1.54-3.87-1.54-.53-1.34-1.3-1.7-1.3-1.7-1.07-.73.08-.72.08-.72 1.18.09 1.8 1.21 1.8 1.21 1.05 1.8 2.76 1.28 3.44.98.11-.76.41-1.28.75-1.58-2.55-.29-5.23-1.28-5.23-5.69 0-1.26.45-2.29 1.2-3.1-.12-.3-.52-1.52.11-3.17 0 0 .97-.31 3.18 1.18A11.1 11.1 0 0 1 12 6.8a11.1 11.1 0 0 1 2.89.39c2.2-1.49 3.17-1.18 3.17-1.18.63 1.65.23 2.87.11 3.17.75.81 1.2 1.84 1.2 3.1 0 4.42-2.69 5.39-5.25 5.67.42.37.8 1.1.8 2.22v3.29c0 .31.21.67.8.55A11.5 11.5 0 0 0 23.5 12 11.5 11.5 0 0 0 12 .5z"/></svg></a>
+        <a href="https://www.linkedin.com/in/hassankanso/" aria-label="LinkedIn"><svg fill="currentColor" viewBox="0 0 24 24" width="22" height="22"><path d="M4.98 3.5a2.5 2.5 0 1 1 0 5 2.5 2.5 0 0 1 0-5zM3 8.98h4v12H3zM9 8.98h3.8v1.62h.05c.53-.9 1.83-1.85 3.77-1.85 4.03 0 4.78 2.65 4.78 6.09v7.14h-4V15.2c0-2.37-.05-5.42-3.3-5.42-3.3 0-3.8 2.58-3.8 5.26v6.02H9z"/></svg></a>
+      </div>
+    </div>
+  </header>
+
+  <!-- LabVault Homepage Image -->
+  <div style="display:flex;justify-content:center;align-items:center;margin:100px 0 1.5rem 0;">
+    <img src="images/logo.png" alt="LabVault App Homepage Screenshot" style="max-width:300px;width:100%;border-radius:18px;box-shadow:0 8px 32px #7f5cff44,0 2px 8px #23264a55;">
+  </div>
+
+  <section id="labvault-screenshots">
+    <div class="heading-row" style="justify-content:center;text-align:center;">
+      <h2 class="section-heading" style="text-align:center;"><span class="slash">/</span>LabVault in Action</h2>
+    </div>
+    <div class="screenshot-gallery">
+      <div class="screenshot-item">
+        <img src="images/homepage.png" alt="LabVault Homepage" class="interactive-screenshot" />
+        <p>Homepage</p>
+      </div>
+      <div class="screenshot-item">
+        <img src="images/ELN.png" alt="Electronic Lab Notebook" class="interactive-screenshot" />
+        <p>Electronic Lab Notebook (ELN)</p>
+      </div>
+      <div class="screenshot-item">
+        <img src="images/coshh.png" alt="COSHH & Risk Assessment" class="interactive-screenshot" />
+        <p>COSHH & Risk Assessment</p>
+      </div>
+      <div class="screenshot-item">
+        <img src="images/tools.png" alt="Tools & Calculators" class="interactive-screenshot" />
+        <p>Tools & Calculators</p>
+      </div>
+    </div>
+  </section>
+
+  <section id="about-labvault-hero">
+    <div class="heading-row">
+      <h2 class="section-heading"><span class="slash">/</span>About LabVault</h2>
+    </div>
+    <div class="about-grid">
+      <div>
+        <h3 style="margin-bottom: 1.5rem;">Your Comprehensive Laboratory Management Platform</h3>
+
+        <p>
+          <strong>LabVault</strong> is a modern, feature-rich desktop application designed to streamline laboratory workflows, enhance data management, and accelerate scientific research. Built with modern UI/UX principles and powerful backend services, it provides researchers with an all-in-one platform for laboratory management.
+        </p>
+        <ul class="tech-list">
+          <li>Comprehensive Dashboard &amp; Real-time Statistics</li>
+          <li>Enhanced Electronic Lab Notebook (ELN)</li>
+          <li>15+ Scientific Calculators &amp; Molecular Biology Tools</li>
+          <li>Experiment Calendar &amp; Project Tracking</li>
+          <li>Risk Assessment &amp; COSHH Compliance</li>
+          <li>Google Drive Integration &amp; Cloud Sync</li>
+          <li>Cross-Platform: Windows, macOS, Android, iOS</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- Modal for image preview -->
+  <div id="screenshot-modal" style="display:none;position:fixed;z-index:1000;left:0;top:0;width:100vw;height:100vh;background:rgba(20,22,40,0.92);justify-content:center;align-items:center;">
+    <span id="modal-close" style="position:absolute;top:40px;right:60px;font-size:3rem;color:#fff;cursor:pointer;font-weight:bold;z-index:1010;">&times;</span>
+    <div style="display:flex;flex-direction:column;align-items:center;max-width:90vw;max-height:90vh;">
+      <img id="modal-img" src="" alt="Screenshot Preview" style="max-width:90vw;max-height:70vh;border-radius:18px;box-shadow:0 8px 32px #7f5cff88,0 2px 8px #23264a99;" />
+      <div id="modal-caption" style="color:#fff;text-align:center;margin-top:1.5rem;font-size:1.3rem;font-weight:500;"></div>
+    </div>
+  </div>
+
+  <script>
+    // Modal interactivity for screenshots
+    document.querySelectorAll('.interactive-screenshot').forEach(img => {
+      img.addEventListener('click', function() {
+        document.getElementById('modal-img').src = this.src;
+        document.getElementById('modal-caption').textContent = this.alt;
+        document.getElementById('screenshot-modal').style.display = 'flex';
+      });
+    });
+    document.getElementById('modal-close').onclick = function() {
+      document.getElementById('screenshot-modal').style.display = 'none';
+      document.getElementById('modal-img').src = '';
+    };
+    document.getElementById('screenshot-modal').onclick = function(e) {
+      if (e.target === this) {
+        this.style.display = 'none';
+        document.getElementById('modal-img').src = '';
+      }
+    };
+  </script>
+
+  <section id="labvault-features">
+    <div class="heading-row">
+      <h2 class="section-heading"><span class="slash">/</span>Key Features</h2>
+    </div>
+    <ul class="tech-list">
+      <li><strong>Comprehensive Dashboard:</strong> Real-time statistics, activity monitoring, and quick actions</li>
+      <li><strong>Electronic Lab Notebook (ELN):</strong> Rich text editing, project organization, tagging, search, and cloud sync</li>
+      <li><strong>Scientific Calculators &amp; Tools:</strong> Dilutions, unit conversions, buffer prep, DNA/protein tools, and more</li>
+      <li><strong>Risk Assessment &amp; Safety:</strong> COSHH compliance, risk templates, chemical database, and SOP management</li>
+      <li><strong>Experiment Management:</strong> Calendar, experiment tracking, resource planning, and timeline visualization</li>
+      <li><strong>Cloud Integration:</strong> Google Drive sync and backup</li>
+      <li><strong>Modern UI:</strong> Responsive, dark/light themes, accessibility, and performance optimized</li>
+    </ul>
+  </section>
+
+  <section id="labvault-modules">
+    <div class="heading-row">
+      <h2 class="section-heading"><span class="slash">/</span>Core Modules</h2>
+    </div>
+    <ul class="tech-list">
+      <li><strong>Main Dashboard:</strong> Real-time stats, activity charts, quick actions, and experiment calendar</li>
+      <li><strong>ELN:</strong> Rich text, folder organization, tagging, search, export, and Google Drive sync</li>
+      <li><strong>Calculators &amp; Tools:</strong> Chemistry, molecular biology, analysis, and statistics</li>
+      <li><strong>Risk Assessment:</strong> COSHH, risk templates, safety docs, and chemical database</li>
+      <li><strong>Experiment Management:</strong> Calendar, tracking, resource planning, and timelines</li>
+    </ul>
+  </section>
+
+  <section id="labvault-architecture">
+    <div class="heading-row">
+      <h2 class="section-heading"><span class="slash">/</span>Architecture &amp; Technologies</h2>
+    </div>
+    <ul class="tech-list">
+      <li><strong>Frontend:</strong> Flutter, Material Design, responsive UI, dark/light themes</li>
+      <li><strong>Backend:</strong> SQLite, Provider, Google APIs, scientific calculation engines</li>
+      <li><strong>Cloud:</strong> Google Drive integration for sync and backup</li>
+      <li><strong>Performance:</strong> Optimized for fast startup, low memory, and smooth animations</li>
+      <li><strong>Cross-Platform:</strong> Windows, macOS, Android, iOS</li>
+    </ul>
+  </section>
+
+  <section id="labvault-ui">
+    <div class="heading-row">
+      <h2 class="section-heading"><span class="slash">/</span>User Interface</h2>
+    </div>
+    <ul class="tech-list">
+      <li>Modern, intuitive, and productivity-focused</li>
+      <li>Responsive design for all screen sizes</li>
+      <li>Dark and light themes</li>
+      <li>Material Design patterns</li>
+      <li>Accessibility: screen reader and keyboard navigation</li>
+      <li>Performance-optimized: smooth and fast</li>
+    </ul>
+  </section>
+
+  <section id="labvault-science">
+    <div class="heading-row">
+      <h2 class="section-heading"><span class="slash">/</span>Scientific Accuracy</h2>
+    </div>
+    <ul class="tech-list">
+      <li>Validated against standard laboratory protocols</li>
+      <li>Peer-reviewed scientific literature</li>
+      <li>Industry best practices</li>
+      <li>Regulatory compliance standards</li>
+    </ul>
+  </section>
+
+  <section id="labvault-download">
+    <div class="heading-row">
+      <h2 class="section-heading"><span class="slash">/</span>Download LabVault</h2>
+    </div>
+    <p>Get started with LabVault by downloading the latest version for your platform. For installation instructions and documentation, visit the <a href="https://github.com/dr-kanso/labvault_desktop_flutter">LabVault GitHub</a>.</p>
+    <button style="display:inline-block;padding:0.75rem 2rem;background:#7f5cff;color:#fff;border-radius:8px;font-weight:600;font-size:1.1rem;margin-top:1.5rem;box-shadow:0 2px 8px #23264a33;cursor:not-allowed;opacity:0.7;" disabled>LabVault Installer (.exe) – Coming Soon!</button>
+  </section>
+
+  <footer><p>© 2025 Hassan Kanso.</p></footer>
+</body>
+</html> 
