@@ -23,15 +23,18 @@ Since this is a static website with no build process:
 
 ### Key Files
 - `index.html` - Main portfolio page with DNA animation and tabbed experience sections
-- `projects.html` - Dynamic project showcase with filtering and modals
-- `LabVault.html` - Product showcase page for the LabVault application
+- `projects.html` - Dynamic project showcase with filtering and modals (currently hidden from navigation)
+- `LabVault.html` - Product showcase page for the LabVault application with download functionality
 - `styles.css` - Comprehensive styling with component-based classes
+- `nav.js` - Shared navigation component used across all pages
+- `setup/LabVault_setup.exe` - LabVault installer (58.50 KB)
 - `database_of_experiences.txt` - Detailed CV/resume content (not in version control)
 
 ### JavaScript Architecture
+- **Shared Navigation**: `nav.js` dynamically generates navigation header for all pages with automatic active state detection
 - **Homepage**: P5.js DNA animation, smooth scrolling navigation, tab system
 - **Projects**: Dynamic filtering system, modal management, project data stored as JS objects
-- **LabVault**: Screenshot gallery with modal preview system
+- **LabVault**: Screenshot gallery with modal preview system, skip-to-download functionality, VirusTotal integration
 
 ### CSS Architecture
 - Mobile-first responsive design with breakpoints at 480px, 768px, 1000px
@@ -40,16 +43,20 @@ Since this is a static website with no build process:
 - Consistent spacing and typography scales
 
 ### Important Patterns
+- **Shared Navigation**: All pages include `nav.js` which automatically injects the navigation header and sets active states
 - All interactive elements use vanilla JavaScript event listeners
 - Modals are implemented with fixed positioning and z-index management
 - Smooth scrolling uses CSS scroll-behavior and JavaScript scrollIntoView
 - Project data is embedded as JavaScript objects in projects.html
+- Download functionality uses HTML5 download attribute with security verification display
 
 ## Development Guidelines
 
 When modifying this codebase:
 - Maintain the vanilla JavaScript approach - no frameworks or libraries except P5.js
+- **Navigation changes**: Edit only `nav.js` - all pages will automatically reflect changes
 - Follow the existing CSS component patterns and naming conventions
 - Ensure all interactive elements have proper keyboard navigation
 - Test responsive design at all breakpoints
 - Keep the static nature - avoid adding build steps unless absolutely necessary
+- **Current navigation**: Only "Home" and "LabVault" tabs are active (Projects tab temporarily hidden)
